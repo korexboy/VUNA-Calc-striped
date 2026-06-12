@@ -1,87 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VUNA Calculator</title>
-  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="assets/css/styles.css" />
+  <title>SEN 482 DevOps CA — Defense</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+    h1 {
+      color: #667eea;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+    }
+    h2 {
+      color: #764ba2;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+      margin: 25px 0 15px;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .info-item {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .info-item strong {
+      color: #667eea;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .btn {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102,126,234,0.4);
+    }
+    .screenshot {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      background: #f8f9fa;
+    }
+    .screenshot-placeholder {
+      background: #e9ecef;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      border-radius: 6px;
+      border: 2px dashed #ccc;
+    }
+    .checklist {
+      list-style: none;
+    }
+    .checklist li {
+      padding: 8px 0;
+      padding-left: 30px;
+      position: relative;
+    }
+    .checklist li::before {
+      content: "✅";
+      position: absolute;
+      left: 0;
+    }
+    .checklist li.pending::before {
+      content: "⬜";
+    }
+    code {
+      background: #f4f4f4;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+    .footer {
+      text-align: center;
+      color: white;
+      margin-top: 40px;
+      opacity: 0.8;
+    }
+    @media (max-width: 600px) {
+      .info-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-
 <body>
-  <!-- Theme Toggle Button -->
-  <button class="btn btn-outline-secondary theme-toggle-btn" id="theme-toggle" onclick="toggleTheme()"
-    title="Toggle dark/light mode">
-    🌙
-  </button>
 
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-6 col-md-6 col-sm-8">
-        <div class="border border-dotted border-3 rounded-3 p-3 mb-4 bg-white bg-opacity-50">
-          <h4 class="text-center group-header mb-0">VUNA CALCULATOR</h4>
-          <p class="text-center text-small text-muted">
-            <i>Created by Set 2025/26 Software Engineering</i>
-          </p>
+    <!-- Header -->
+    <div class="card">
+      <h1>🧮 VUNA Calculator</h1>
+      <p class="subtitle">SEN 482 — DevOps Continuous Assessment</p>
+      <p style="text-align: center;">
+        <a href="calculator.html" class="btn">🚀 Launch Calculator</a>
+      </p>
+    </div>
+
+    <!-- Student Info -->
+    <div class="card">
+      <h2>📋 Student Information</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <strong>Name</strong>
+          [Your Full Name]
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card calculator-card">
-              <div class="card-body p-4">
-                <div class="calculator">
-                  <div class="display-container">
-                    <input type="text" class="form-control" id="result" placeholder="0" disabled />
-                  </div>
-
-                  <div class="btn-grid">
-                    <!-- Row 1: AC, CE (backspace) -->
-                    <button class="btn btn-action" onclick="clearResult()">AC</button>
-                    <button class="btn btn-action" onclick="backspace()">CE</button>
-
-                    <!-- Row 2: 7 8 9 ÷ -->
-                    <button class="btn btn-light" onclick="appendToResult(7)">7</button>
-                    <button class="btn btn-light" onclick="appendToResult(8)">8</button>
-                    <button class="btn btn-light" onclick="appendToResult(9)">9</button>
-                    <button class="btn btn-operator" onclick="operatorToResult('/')">÷</button>
-
-                    <!-- Row 3: 4 5 6 × -->
-                    <button class="btn btn-light" onclick="appendToResult(4)">4</button>
-                    <button class="btn btn-light" onclick="appendToResult(5)">5</button>
-                    <button class="btn btn-light" onclick="appendToResult(6)">6</button>
-                    <button class="btn btn-operator" onclick="operatorToResult('*')">×</button>
-
-                    <!-- Row 4: 1 2 3 - -->
-                    <button class="btn btn-light" onclick="appendToResult(1)">1</button>
-                    <button class="btn btn-light" onclick="appendToResult(2)">2</button>
-                    <button class="btn btn-light" onclick="appendToResult(3)">3</button>
-                    <button class="btn btn-operator" onclick="operatorToResult('-')">−</button>
-
-                    <!-- Row 5: . 0 = + -->
-                    <button class="btn btn-light" onclick="appendToResult('.')">.</button>
-                    <button class="btn btn-light" onclick="appendToResult(0)">0</button>
-                    <button class="btn btn-equals" onclick="calculateResult()">=</button>
-                    <button class="btn btn-operator" onclick="operatorToResult('+')">+</button>
-
-                    <!-- Row 6: CUSTOM FEATURE — Area of Square -->
-                    <button class="btn btn-feature" onclick="areaSquare()" style="grid-column: span 4;">
-                      Area of Square
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="info-item">
+          <strong>Matric Number</strong>
+          [Your Matric Number]
+        </div>
+        <div class="info-item">
+          <strong>Department</strong>
+          Software Engineering
+        </div>
+        <div class="info-item">
+          <strong>Set</strong>
+          2025/26
         </div>
       </div>
     </div>
+
+    <!-- Project Overview -->
+    <div class="card">
+      <h2>📖 Project Overview</h2>
+      <p>
+        This project demonstrates a <strong>stripped scientific calculator</strong> with a custom 
+        <strong>Area of Square</strong> feature, built with a complete DevOps pipeline including:
+      </p>
+      <ul class="checklist">
+        <li>Automated testing with Jest (20+ tests, 80%+ coverage)</li>
+        <li>Code linting with ESLint</li>
+        <li>Docker containerization & Docker Hub registry</li>
+        <li>CI/CD with GitHub Actions (3 jobs: CI → Docker → Deploy)</li>
+        <li>Auto-deployment via FTP to live subdomain</li>
+      </ul>
+    </div>
+
+    <!-- Custom Feature -->
+    <div class="card">
+      <h2>⭐ Custom Feature: Area of Square</h2>
+      <p>
+        The calculator includes a dedicated <strong>Area of Square</strong> button that prompts the user 
+        for the side length and calculates <code>side × side</code>.
+      </p>
+      <p>
+        <strong>Formula:</strong> <code>A = s²</code> where <code>s</code> = side length
+      </p>
+      <p>
+        <strong>Example:</strong> Side = 5 → Area = 25 square units
+      </p>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="card">
+      <h2>🛠️ Tech Stack</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <strong>Frontend</strong>
+          HTML5, CSS3, Bootstrap
+        </div>
+        <div class="info-item">
+          <strong>Logic Engine</strong>
+          Pure JavaScript (no eval)
+        </div>
+        <div class="info-item">
+          <strong>Testing</strong>
+          Jest with coverage thresholds
+        </div>
+        <div class="info-item">
+          <strong>Linting</strong>
+          ESLint 9 (flat config)
+        </div>
+        <div class="info-item">
+          <strong>Container</strong>
+          Docker + Nginx
+        </div>
+        <div class="info-item">
+          <strong>CI/CD</strong>
+          GitHub Actions
+        </div>
+        <div class="info-item">
+          <strong>Registry</strong>
+          Docker Hub
+        </div>
+        <div class="info-item">
+          <strong>Deployment</strong>
+          FTP to cPanel/CyberPanel
+        </div>
+      </div>
+    </div>
+
+    <!-- Pipeline Proof -->
+    <div class="card">
+      <h2>🔄 CI/CD Pipeline Proof</h2>
+      
+      <div class="screenshot">
+        <strong>1. GitHub Actions Workflow (All Green)</strong>
+        <div class="screenshot-placeholder">
+          [Screenshot: github.com → Actions → show all 3 jobs green]
+        </div>
+        <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+          Shows: ci (lint+test) → docker (build+push) → deploy (FTP)
+        </p>
+      </div>
+
+      <div class="screenshot">
+        <strong>2. Docker Hub Image</strong>
+        <div class="screenshot-placeholder">
+          [Screenshot: hub.docker.com → your repo → tags]
+        </div>
+        <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+          Shows: <code>username/vuna-calc:latest</code> pushed successfully
+        </p>
+      </div>
+
+      <div class="screenshot">
+        <strong>3. Jest Coverage Report</strong>
+        <div class="screenshot-placeholder">
+          [Screenshot: coverage report showing >80% on lines/functions/statements]
+        </div>
+        <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+          Shows: coverage meets thresholds (branches 60%, functions 80%, lines 80%, statements 80%)
+        </p>
+      </div>
+
+      <div class="screenshot">
+        <strong>4. Live Deployment Proof</strong>
+        <div class="screenshot-placeholder">
+          [Screenshot: this page + calculator working in browser]
+        </div>
+        <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+          Shows: auto-deployed live site at <code>http://your-domain/</code>
+        </p>
+      </div>
+    </div>
+
+    <!-- Automation Demo -->
+    <div class="card">
+      <h2>🤖 Automation Demonstration</h2>
+      <p>
+        To prove CI/CD works: make a visible change (e.g., change this text color), commit, push to 
+        <code>main</code>, and the change appears on the live site within ~30 seconds — zero manual upload.
+      </p>
+      <p style="margin-top: 15px;">
+        <strong>Git commands:</strong>
+      </p>
+      <pre style="background: #f4f4f4; padding: 15px; border-radius: 8px; overflow-x: auto;"><code>git add .
+git commit -m "tweak: change accent color for defense demo"
+git push origin main</code></pre>
+    </div>
+
+    <!-- Repository -->
+    <div class="card">
+      <h2>🔗 Links</h2>
+      <p>
+        <strong>GitHub Repo:</strong> <code>https://github.com/YOUR_USERNAME/vuna-calc</code>
+        (Private — lecturer added as collaborator)
+      </p>
+      <p style="margin-top: 10px;">
+        <strong>Live Calculator:</strong> <a href="calculator.html">Click here</a>
+      </p>
+      <p style="margin-top: 10px;">
+        <strong>Docker Hub:</strong> <code>https://hub.docker.com/r/YOUR_DOCKERHUB/vuna-calc</code>
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Built for SEN 482 DevOps — Software Engineering, VUNA</p>
+    </div>
   </div>
 
-  <script src="assets/js/bootstrap.min.js"></script>
-  <!-- Load the pure math engine FIRST -->
-  <script src="src/calculator.js"></script>
-  <!-- Then load the DOM wiring -->
-  <script src="assets/js/script.js"></script>
 </body>
-
 </html>
