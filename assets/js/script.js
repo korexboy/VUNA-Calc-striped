@@ -40,9 +40,6 @@ window.addEventListener('DOMContentLoaded', function () {
       btn.title = 'Switch to dark mode';
     }
   }
-
-  // Setup dropdown
-  setupAreaDropdown();
 });
 
 // ------------------------------
@@ -90,50 +87,61 @@ function calculateResult() {
 }
 
 // ------------------------------
-// Area Dropdown Feature
+// Area Feature — Inline Panels
 // ------------------------------
 
-function setupAreaDropdown() {
+/**
+ * Handle dropdown selection — show the correct input panel.
+ */
+function handleAreaSelect(value) {
+  // Hide all panels first
+  hideAreaPanel();
+
+  // Reset dropdown
   const dropdown = document.getElementById('area-dropdown');
-  if (!dropdown) return;
+  if (dropdown) dropdown.value = '';
 
-  dropdown.addEventListener('change', function () {
-    const selected = this.value;
-    if (!selected) return;
-
-    // Reset dropdown after selection
-    this.value = '';
-
-    // Route to correct function
-    switch (selected) {
-      case 'square':
-        areaSquare();
-        break;
-      case 'rectangle':
-        areaRectangle();
-        break;
-      case 'circle':
-        areaCircle();
-        break;
+  // Show selected panel
+  if (value) {
+    const panel = document.getElementById('panel-' + value);
+    if (panel) {
+      panel.classList.add('active');
+      // Auto-focus the first input
+      const firstInput = panel.querySelector('input');
+      if (firstInput) firstInput.focus();
     }
+  }
+}
+
+/**
+ * Hide all area input panels.
+ */
+function hideAreaPanel() {
+  const panels = document.querySelectorAll('.area-panel');
+  panels.forEach(function (panel) {
+    panel.classList.remove('active');
+  });
+
+  // Clear all inputs
+  const inputs = document.querySelectorAll('.area-input');
+  inputs.forEach(function (input) {
+    input.value = '';
   });
 }
 
 /**
- * Area of Square — prompts for side, calculates side².
+ * Calculate Area of Square.
  */
-function areaSquare() {
+function calculateSquare() {
   const display = document.getElementById('result');
-  const input = prompt('Enter the side length of the square:');
-
-  if (input === null || input.trim() === '') return;
-
-  const side = parseFloat(input);
+  const sideInput = document.getElementById('square-side');
+  const side = parseFloat(sideInput.value);
 
   try {
     const result = areaOfSquare(side);
     display.value = 'Square Area = ' + result.toFixed(2);
     currentExpression = String(result);
+    hideAreaPanel();
   } catch (e) {
     display.value = 'Error: ' + e.message;
     currentExpression = '';
@@ -141,24 +149,20 @@ function areaSquare() {
 }
 
 /**
- * Area of Rectangle — prompts for length and width, calculates length × width.
+ * Calculate Area of Rectangle.
  */
-function areaRectangle() {
+function calculateRectangle() {
   const display = document.getElementById('result');
-  const lengthInput = prompt('Enter the length of the rectangle:');
-
-  if (lengthInput === null || lengthInput.trim() === '') return;
-
-  const widthInput = prompt('Enter the width of the rectangle:');
-  if (widthInput === null || widthInput.trim() === '') return;
-
-  const length = parseFloat(lengthInput);
-  const width = parseFloat(widthInput);
+  const lengthInput = document.getElementById('rect-length');
+  const widthInput = document.getElementById('rect-width');
+  const length = parseFloat(lengthInput.value);
+  const width = parseFloat(widthInput.value);
 
   try {
     const result = areaOfRectangle(length, width);
     display.value = 'Rectangle Area = ' + result.toFixed(2);
     currentExpression = String(result);
+    hideAreaPanel();
   } catch (e) {
     display.value = 'Error: ' + e.message;
     currentExpression = '';
@@ -166,20 +170,18 @@ function areaRectangle() {
 }
 
 /**
- * Area of Circle — prompts for radius, calculates π × radius².
+ * Calculate Area of Circle.
  */
-function areaCircle() {
+function calculateCircle() {
   const display = document.getElementById('result');
-  const input = prompt('Enter the radius of the circle:');
-
-  if (input === null || input.trim() === '') return;
-
-  const radius = parseFloat(input);
+  const radiusInput = document.getElementById('circle-radius');
+  const radius = parseFloat(radiusInput.value);
 
   try {
     const result = areaOfCircle(radius);
     display.value = 'Circle Area = ' + result.toFixed(2);
     currentExpression = String(result);
+    hideAreaPanel();
   } catch (e) {
     display.value = 'Error: ' + e.message;
     currentExpression = '';

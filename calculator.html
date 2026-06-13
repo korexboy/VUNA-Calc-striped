@@ -36,6 +36,69 @@
     .area-dropdown option:first-child {
       color: #999;
     }
+
+    /* Area input panel */
+    .area-panel {
+      display: none;
+      background: #f8f9fa;
+      border: 2px solid #667eea;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 10px;
+      grid-column: span 4;
+    }
+    .area-panel.active {
+      display: block;
+    }
+    .area-panel h5 {
+      color: #667eea;
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    .area-input-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .area-input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      text-align: center;
+    }
+    .area-input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    .area-btn {
+      width: 100%;
+      padding: 10px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .area-btn:hover {
+      background: #5a6fd6;
+    }
+    .area-cancel {
+      width: 100%;
+      padding: 8px;
+      background: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 8px;
+      cursor: pointer;
+    }
+    .area-cancel:hover {
+      background: #5a6268;
+    }
   </style>
 <base target="_blank">
 </head>
@@ -94,13 +157,44 @@
                     <button class="btn btn-equals" onclick="calculateResult()">=</button>
                     <button class="btn btn-operator" onclick="operatorToResult('+')">+</button>
 
-                    <!-- Row 6: AREA DROPDOWN (3 features) -->
-                    <select id="area-dropdown" class="area-dropdown" style="grid-column: span 4;">
+                    <!-- Row 6: AREA DROPDOWN -->
+                    <select id="area-dropdown" class="area-dropdown" style="grid-column: span 4;" onchange="handleAreaSelect(this.value)">
                       <option value="" selected disabled>📐 Calculate Area...</option>
                       <option value="square">⬜ Area of Square (s²)</option>
                       <option value="rectangle">▭ Area of Rectangle (l × w)</option>
                       <option value="circle">🔵 Area of Circle (πr²)</option>
                     </select>
+
+                    <!-- Square Input Panel -->
+                    <div id="panel-square" class="area-panel">
+                      <h5>⬜ Area of Square</h5>
+                      <div class="area-input-group">
+                        <input type="number" id="square-side" class="area-input" placeholder="Side length" step="any" />
+                      </div>
+                      <button class="area-btn" onclick="calculateSquare()">Calculate</button>
+                      <button class="area-cancel" onclick="hideAreaPanel()">Cancel</button>
+                    </div>
+
+                    <!-- Rectangle Input Panel -->
+                    <div id="panel-rectangle" class="area-panel">
+                      <h5>▭ Area of Rectangle</h5>
+                      <div class="area-input-group">
+                        <input type="number" id="rect-length" class="area-input" placeholder="Length" step="any" />
+                        <input type="number" id="rect-width" class="area-input" placeholder="Width" step="any" />
+                      </div>
+                      <button class="area-btn" onclick="calculateRectangle()">Calculate</button>
+                      <button class="area-cancel" onclick="hideAreaPanel()">Cancel</button>
+                    </div>
+
+                    <!-- Circle Input Panel -->
+                    <div id="panel-circle" class="area-panel">
+                      <h5>🔵 Area of Circle</h5>
+                      <div class="area-input-group">
+                        <input type="number" id="circle-radius" class="area-input" placeholder="Radius" step="any" />
+                      </div>
+                      <button class="area-btn" onclick="calculateCircle()">Calculate</button>
+                      <button class="area-cancel" onclick="hideAreaPanel()">Cancel</button>
+                    </div>
                   </div>
                 </div>
               </div>
