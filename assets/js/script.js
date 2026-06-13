@@ -40,6 +40,9 @@ window.addEventListener('DOMContentLoaded', function () {
       btn.title = 'Switch to dark mode';
     }
   }
+
+  // Setup dropdown
+  setupAreaDropdown();
 });
 
 // ------------------------------
@@ -70,7 +73,7 @@ function updateResult() {
 }
 
 // ------------------------------
-// Calculate Result (uses evaluateExpression from calculator.js)
+// Calculate Result
 // ------------------------------
 function calculateResult() {
   if (!currentExpression) return;
@@ -87,11 +90,37 @@ function calculateResult() {
 }
 
 // ------------------------------
-// Area of Square Feature
+// Area Dropdown Feature
 // ------------------------------
+
+function setupAreaDropdown() {
+  const dropdown = document.getElementById('area-dropdown');
+  if (!dropdown) return;
+
+  dropdown.addEventListener('change', function () {
+    const selected = this.value;
+    if (!selected) return;
+
+    // Reset dropdown after selection
+    this.value = '';
+
+    // Route to correct function
+    switch (selected) {
+      case 'square':
+        areaSquare();
+        break;
+      case 'rectangle':
+        areaRectangle();
+        break;
+      case 'circle':
+        areaCircle();
+        break;
+    }
+  });
+}
+
 /**
- * Trigger the Area of Square feature.
- * Prompts the user for the side length, calculates area, and displays it.
+ * Area of Square — prompts for side, calculates side².
  */
 function areaSquare() {
   const display = document.getElementById('result');
@@ -103,7 +132,53 @@ function areaSquare() {
 
   try {
     const result = areaOfSquare(side);
-    display.value = 'Area = ' + result;
+    display.value = 'Square Area = ' + result.toFixed(2);
+    currentExpression = String(result);
+  } catch (e) {
+    display.value = 'Error: ' + e.message;
+    currentExpression = '';
+  }
+}
+
+/**
+ * Area of Rectangle — prompts for length and width, calculates length × width.
+ */
+function areaRectangle() {
+  const display = document.getElementById('result');
+  const lengthInput = prompt('Enter the length of the rectangle:');
+
+  if (lengthInput === null || lengthInput.trim() === '') return;
+
+  const widthInput = prompt('Enter the width of the rectangle:');
+  if (widthInput === null || widthInput.trim() === '') return;
+
+  const length = parseFloat(lengthInput);
+  const width = parseFloat(widthInput);
+
+  try {
+    const result = areaOfRectangle(length, width);
+    display.value = 'Rectangle Area = ' + result.toFixed(2);
+    currentExpression = String(result);
+  } catch (e) {
+    display.value = 'Error: ' + e.message;
+    currentExpression = '';
+  }
+}
+
+/**
+ * Area of Circle — prompts for radius, calculates π × radius².
+ */
+function areaCircle() {
+  const display = document.getElementById('result');
+  const input = prompt('Enter the radius of the circle:');
+
+  if (input === null || input.trim() === '') return;
+
+  const radius = parseFloat(input);
+
+  try {
+    const result = areaOfCircle(radius);
+    display.value = 'Circle Area = ' + result.toFixed(2);
     currentExpression = String(result);
   } catch (e) {
     display.value = 'Error: ' + e.message;

@@ -26,11 +26,13 @@ module.exports = [
         process: 'readonly',
         evaluateExpression: 'readonly',
         areaOfSquare: 'readonly',
+        areaOfRectangle: 'readonly',
+        areaOfCircle: 'readonly',
         describe: 'readonly',
         it: 'readonly',
         expect: 'readonly',
-        prompt: 'readonly',   // <-- ADD THIS
-        alert: 'readonly'     // <-- ADD THIS (just in case)
+        prompt: 'readonly',
+        alert: 'readonly'
       }
     },
     rules: {
@@ -42,8 +44,6 @@ module.exports = [
   {
     files: ['assets/js/script.js'],
     rules: {
-      // These functions are called via HTML onclick attributes,
-      // so ESLint can't detect their usage. Disable the rule here.
       'no-unused-vars': 'off'
     }
   },

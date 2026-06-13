@@ -117,11 +117,14 @@ function evaluateExpression(expr) {
   return evalRPN(rpn);
 }
 
+// ==========================
+// AREA CALCULATIONS (3 features)
+// ==========================
+
 /**
  * Calculate the area of a square given the length of one side.
- * @param {number} side - Length of one side of the square.
- * @returns {number} - Area of the square (side * side).
- * @throws {Error} - If side is not a number, negative, or not finite.
+ * @param {number} side - Length of one side.
+ * @returns {number} - Area = side * side.
  */
 function areaOfSquare(side) {
   if (typeof side !== 'number' || !Number.isFinite(side)) {
@@ -133,7 +136,44 @@ function areaOfSquare(side) {
   return side * side;
 }
 
+/**
+ * Calculate the area of a rectangle given length and width.
+ * @param {number} length - Length of the rectangle.
+ * @param {number} width - Width of the rectangle.
+ * @returns {number} - Area = length * width.
+ */
+function areaOfRectangle(length, width) {
+  if (typeof length !== 'number' || !Number.isFinite(length)) {
+    throw new Error('Length must be a valid number');
+  }
+  if (typeof width !== 'number' || !Number.isFinite(width)) {
+    throw new Error('Width must be a valid number');
+  }
+  if (length < 0) {
+    throw new Error('Length cannot be negative');
+  }
+  if (width < 0) {
+    throw new Error('Width cannot be negative');
+  }
+  return length * width;
+}
+
+/**
+ * Calculate the area of a circle given the radius.
+ * @param {number} radius - Radius of the circle.
+ * @returns {number} - Area = π * radius².
+ */
+function areaOfCircle(radius) {
+  if (typeof radius !== 'number' || !Number.isFinite(radius)) {
+    throw new Error('Radius must be a valid number');
+  }
+  if (radius < 0) {
+    throw new Error('Radius cannot be negative');
+  }
+  return Math.PI * radius * radius;
+}
+
 // Export for Node.js / Jest testing
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { evaluateExpression, areaOfSquare };
+  module.exports = { evaluateExpression, areaOfSquare, areaOfRectangle, areaOfCircle };
 }

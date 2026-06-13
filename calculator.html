@@ -7,6 +7,37 @@
   <title>VUNA Calculator</title>
   <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
   <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .area-dropdown {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: 2px solid #667eea;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      text-align: center;
+      text-align-last: center;
+    }
+    .area-dropdown:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+    }
+    .area-dropdown option {
+      background: white;
+      color: #333;
+      font-weight: normal;
+    }
+    .area-dropdown option:first-child {
+      color: #999;
+    }
+  </style>
+<base target="_blank">
 </head>
 
 <body>
@@ -63,10 +94,13 @@
                     <button class="btn btn-equals" onclick="calculateResult()">=</button>
                     <button class="btn btn-operator" onclick="operatorToResult('+')">+</button>
 
-                    <!-- Row 6: CUSTOM FEATURE — Area of Square -->
-                    <button class="btn btn-feature" onclick="areaSquare()" style="grid-column: span 4;">
-                      Area of Square
-                    </button>
+                    <!-- Row 6: AREA DROPDOWN (3 features) -->
+                    <select id="area-dropdown" class="area-dropdown" style="grid-column: span 4;">
+                      <option value="" selected disabled>📐 Calculate Area...</option>
+                      <option value="square">⬜ Area of Square (s²)</option>
+                      <option value="rectangle">▭ Area of Rectangle (l × w)</option>
+                      <option value="circle">🔵 Area of Circle (πr²)</option>
+                    </select>
                   </div>
                 </div>
               </div>
